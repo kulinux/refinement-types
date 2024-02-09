@@ -15,6 +15,6 @@ class PositiveInteger(value: Int): RefinementType<Int>(value, { require(it > 0) 
     }
 }
 
-fun Int.to(): PositiveInteger {
+fun Int.toPI(): PositiveInteger {
     return PositiveInteger(this)
 }
