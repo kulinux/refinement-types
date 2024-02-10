@@ -1,22 +1,27 @@
 package refinement.types
 
-class RangeInteger(value: Int, private val min: Int, private val max: Int) :
+private class RangeInteger (value: Int, private val min: Int, private val max: Int) :
     RefinementType<Int>(value, { require(it in min..max) }) {
 
 
-    operator fun plus(to: RangeInteger): RangeInteger {
+    override operator fun plus(to: RefinementType<Int>): RangeInteger {
         return RangeInteger(this.value + to.value, this.min, this.max)
     }
 
-    operator fun minus(to: RangeInteger): RangeInteger {
+    override operator fun minus(to: RefinementType<Int>): RangeInteger {
         return RangeInteger(this.value - to.value, this.min, this.max)
     }
 
-    operator fun times(to: RangeInteger): RangeInteger {
+    override operator fun times(to: RefinementType<Int>): RangeInteger {
         return RangeInteger(this.value * to.value, this.min, this.max)
     }
 }
 
-fun Int.toRI(min: Int, max: Int): RangeInteger {
-    return RangeInteger(this, min, max)
+fun toRangeIntegerScope(min: Int, max: Int) = object : RefinementTypesScope<Int> {
+    override fun Int.rt(): RefinementType<Int> {
+        return RangeInteger(this, min, max)
+    }
 }
+
+
+

@@ -13,6 +13,7 @@ plugins {
     `java-library`
 }
 
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -44,4 +45,11 @@ java {
 tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xcontext-receivers")
+    }
 }

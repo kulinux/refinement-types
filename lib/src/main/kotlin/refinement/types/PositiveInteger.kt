@@ -1,20 +1,23 @@
 package refinement.types
 
-class PositiveInteger(value: Int): RefinementType<Int>(value, { require(it > 0) }) {
+private class PositiveInteger(value: Int): RefinementType<Int>(value, { require(it > 0) }) {
 
-    operator fun plus(to: PositiveInteger): PositiveInteger {
-        return PositiveInteger(this.value + to.value)
-    }
-
-    operator fun minus(to: PositiveInteger): PositiveInteger {
+    override operator fun minus(to: RefinementType<Int>): PositiveInteger {
         return PositiveInteger(this.value - to.value)
     }
 
-    operator fun times(to: PositiveInteger): PositiveInteger {
+    override operator fun times(to: RefinementType<Int>): PositiveInteger {
         return PositiveInteger(this.value * to.value)
+    }
+
+    override fun plus(to: RefinementType<Int>): RefinementType<Int> {
+        return PositiveInteger(this.value + to.value)
     }
 }
 
-fun Int.toPI(): PositiveInteger {
-    return PositiveInteger(this)
+val toPositiveIntegerScope = object: RefinementTypesScope<Int> {
+    override fun Int.rt(): RefinementType<Int> {
+        return PositiveInteger(this)
+    }
 }
+
